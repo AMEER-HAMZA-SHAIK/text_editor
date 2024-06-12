@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Text Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .editor-container {
+            width: 80%;
+            max-width: 800px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .toolbar {
+            background-color: #eee;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .toolbar button, .toolbar input[type="color"] {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px 10px;
+            margin: 5px;
+        }
+
+        .toolbar button:hover, .toolbar input[type="color"]:hover {
+            background-color: #ddd;
+        }
+
+        .editor {
+            padding: 20px;
+            min-height: 400px;
+            outline: none;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <div class="toolbar">
+            <button onclick="formatText('bold')"><b>B</b></button>
+            <button onclick="formatText('italic')"><i>I</i></button>
+            <button onclick="formatText('underline')"><u>U</u></button>
+            <button onclick="formatText('strikeThrough')"><s>S</s></button>
+            <button onclick="formatText('justifyLeft')">Left</button>
+            <button onclick="formatText('justifyCenter')">Center</button>
+            <button onclick="formatText('justifyRight')">Right</button>
+            <button onclick="formatText('insertUnorderedList')">UL</button>
+            <button onclick="formatText('insertOrderedList')">OL</button>
+            <input type="color" id="textColor" onchange="setTextColor(this.value)" title="Set Text Color">
+            <input type="color" id="highlightColor" onchange="setHighlightColor(this.value)" title="Set Highlight Color">
+        </div>
+        <div id="editor" contenteditable="true" class="editor"></div>
+    </div>
+    <script>
+        function formatText(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function setTextColor(color) {
+            document.execCommand('foreColor', false, color);
+        }
+
+        function setHighlightColor(color) {
+            document.execCommand('hiliteColor', false, color);
+        }
+
+        document.getElementById('editor').addEventListener('keydown', function(event) {
+            if (event.key === 'Tab') {
+                event.preventDefault();
+                document.execCommand('insertText', false, '\t');
+            }
+        });
+    </script>
+</body>
+</html>
